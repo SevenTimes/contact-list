@@ -1,0 +1,23 @@
+{
+	"users": [
+		{
+			"username": "admin",
+			"password": "admin",
+			"contacts": [
+				{
+					"id": 0,
+					"name": "Test Contact"
+				},
+				{
+					"id": 1,
+					"name": "Another Test Contact"
+				}
+			]
+		},
+		{
+			"username": "user",
+			"password": "user",
+			"contacts": []
+		}
+	]
+}

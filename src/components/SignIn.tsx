@@ -1,7 +1,52 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import { store } from '../app/store';
+import { signedUserSlice } from '../features/signedUserSlice';
 
 function SignIn() {
-	const handleSubmit = () => {};
+	const [usernameInput, setUsernameInput] = useState('');
+	const [passwordInput, setPasswordInput] = useState('');
+	const [loginError, setLoginError] = useState(false);
+
+	interface User {
+		username: string;
+		password: string;
+		contacts: string[];
+	}
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		fetch('http://localhost:4000/users')
+			.then((response) => response.json())
+			.then((data) => {
+				const user = data.find((user: User) => user.username === usernameInput);
+				if (user && user.password === passwordInput) {
+					store.dispatch(signedUserSlice.actions.login(usernameInput));
+					setLoginError(false);
+					console.log(`Logged in as ${store.getState().user.username}`);
+				} else {
+					setLoginError(true);
+				}
+			});
+	};
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		switch (event.currentTarget.id) {
+			case 'username':
+				setUsernameInput(event.currentTarget.value);
+				break;
+			case 'password':
+				setPasswordInput(event.currentTarget.value);
+				break;
+			default:
+				break;
+		}
+	};
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -16,7 +61,7 @@ function SignIn() {
 				<Typography component="h1" variant="h5">
 					Sign In
 				</Typography>
-				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+				<Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
 					<TextField
 						margin="normal"
 						required
@@ -26,6 +71,8 @@ function SignIn() {
 						name="username"
 						autoComplete="username"
 						autoFocus
+						value={usernameInput}
+						onChange={handleChange}
 					/>
 					<TextField
 						margin="normal"
@@ -35,7 +82,14 @@ function SignIn() {
 						label="Password"
 						name="password"
 						autoComplete="current-password"
+						value={passwordInput}
+						onChange={handleChange}
 					/>
+					{loginError && (
+						<Alert severity="error" variant="filled">
+							Incorrect login or password!
+						</Alert>
+					)}
 					<Button
 						type="submit"
 						fullWidth
