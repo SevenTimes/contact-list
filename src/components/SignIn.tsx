@@ -7,11 +7,14 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import { store } from '../app/store';
 import { signedUserSlice } from '../features/signedUserSlice';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
 	const [usernameInput, setUsernameInput] = useState('');
 	const [passwordInput, setPasswordInput] = useState('');
 	const [loginError, setLoginError] = useState(false);
+
+	const navigate = useNavigate();
 
 	interface User {
 		username: string;
@@ -22,13 +25,14 @@ function SignIn() {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		fetch('http://localhost:4000/users')
-			.then((response) => response.json())
+			.then((response) => response.json() as Promise<User[]>)
 			.then((data) => {
-				const user = data.find((user: User) => user.username === usernameInput);
+				const user = data.find((user) => user.username === usernameInput);
 				if (user && user.password === passwordInput) {
 					store.dispatch(signedUserSlice.actions.login(usernameInput));
 					setLoginError(false);
 					console.log(`Logged in as ${store.getState().user.username}`);
+					navigate('/contacts');
 				} else {
 					setLoginError(true);
 				}

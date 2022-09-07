@@ -1,14 +1,20 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ContactList from './components/ContactList';
+import PrivateRoutes from './components/PrivateRoutes';
 import SignIn from './components/SignIn';
 
 function App() {
 	return (
-		<div className="App">
-			<SignIn />
-			{/* <ContactList /> */}
-		</div>
+		<BrowserRouter>
+			<Routes>
+				<Route element={<PrivateRoutes />}>
+					<Route path="/contacts" element={<ContactList />} />
+				</Route>
+				<Route path="/login" element={<SignIn />} />
+				<Route path="*" element={<Navigate to="/login" replace />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 
