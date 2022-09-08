@@ -1,29 +1,47 @@
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import Icon from '@mui/material/Icon';
 import { store } from '../app/store';
+import ContactItem from './ContactItem';
+import { useState } from 'react';
 
 function ContactList() {
-	const navigate = useNavigate();
-	useEffect(() => {
-		if (!store.getState().user.loggedIn) {
-			navigate('/login', { replace: true });
-		}
-	});
+	const [test, setTest] = useState(false);
+	function rerender() {
+		setTest(!test);
+	}
 
 	return (
 		<Container
 			component="main"
-			maxWidth="md"
+			maxWidth="sm"
 			sx={{
 				display: 'flex',
 				justifyContent: 'center',
+				flexDirection: 'column',
 				marginTop: 2,
 			}}
 		>
-			{/* Contacts list */}
-			<Button variant="outlined">Add new contact</Button>
+			<Box>
+				<List>
+					{store.getState().contacts.map((contact) => {
+						return (
+							<ContactItem
+								contact={contact}
+								key={contact.id}
+								rerender={rerender}
+							/>
+						);
+					})}
+				</List>
+			</Box>
+			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+				<Button variant="outlined" startIcon={<Icon>add</Icon>}>
+					Add new contact
+				</Button>
+			</Box>
 		</Container>
 	);
 }

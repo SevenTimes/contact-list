@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 import { store } from '../app/store';
 import { signedUserSlice } from '../features/signedUserSlice';
 import { useNavigate } from 'react-router-dom';
+import { contactsSlice } from '../features/contactsSlice';
 
 function SignIn() {
 	const [usernameInput, setUsernameInput] = useState('');
@@ -19,7 +20,12 @@ function SignIn() {
 	interface User {
 		username: string;
 		password: string;
-		contacts: string[];
+		contacts: Contact[];
+	}
+
+	interface Contact {
+		id: number;
+		name: string;
 	}
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,8 +36,8 @@ function SignIn() {
 				const user = data.find((user) => user.username === usernameInput);
 				if (user && user.password === passwordInput) {
 					store.dispatch(signedUserSlice.actions.login(usernameInput));
+					store.dispatch(contactsSlice.actions.fetchContacts(user.contacts));
 					setLoginError(false);
-					console.log(`Logged in as ${store.getState().user.username}`);
 					navigate('/contacts');
 				} else {
 					setLoginError(true);
