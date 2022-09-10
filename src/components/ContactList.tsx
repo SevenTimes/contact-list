@@ -1,11 +1,10 @@
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
-import Icon from '@mui/material/Icon';
 import { store } from '../app/store';
 import ContactItem from './ContactItem';
 import { useState } from 'react';
+import ContactDetailsModal from './ContactDetailsModal';
 
 function ContactList() {
 	const [test, setTest] = useState(false);
@@ -37,10 +36,8 @@ function ContactList() {
 					})}
 				</List>
 			</Box>
-			<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button variant="outlined" startIcon={<Icon>add</Icon>}>
-					Add new contact
-				</Button>
+			<Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+				<ContactDetailsModal type={'add'} />
 			</Box>
 		</Container>
 	);

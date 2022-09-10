@@ -24,7 +24,7 @@ function SignIn() {
 	}
 
 	interface Contact {
-		id: number;
+		id: string;
 		name: string;
 	}
 

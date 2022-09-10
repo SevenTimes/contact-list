@@ -5,32 +5,27 @@
 			"password": "admin",
 			"contacts": [
 				{
-					"id": 0,
+					"id": "0",
 					"name": "Test Contact",
 					"email": "test@mail.com"
 				},
 				{
-					"id": 1,
+					"id": "1",
 					"name": "Another Test Contact",
 					"email": "test2@mail.com"
 				},
 				{
-					"id": 3,
+					"id": "3",
 					"name": "Another Test Contact 2",
 					"email": "test2@mail.com",
 					"phone": 999123456
 				},
 				{
-					"id": 4,
+					"id": "4",
 					"name": "Test",
 					"email": "test@mail.com"
 				}
 			]
-		},
-		{
-			"username": "user",
-			"password": "user",
-			"contacts": []
 		}
 	]
 }

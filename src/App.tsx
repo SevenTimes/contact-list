@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ContactList from './components/ContactList';
 import PrivateRoutes from './components/PrivateRoutes';
 import SignIn from './components/SignIn';
+import './App.css';
 
 function App() {
 	return (
